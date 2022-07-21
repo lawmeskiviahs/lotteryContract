@@ -56,7 +56,7 @@ describe("Lottery", function () {
   it("Should check if the lottary money is sent correctly", async function() {
 
     await ethers.provider.send('evm_increaseTime', [120]);
-    const msgValue: number = 2;
+    const msgValue: number = 3;
     let balances:any= [];
 
     await lottery.connect(signers[1]).enter({value: expandTo18Decimals(msgValue)});
@@ -76,14 +76,14 @@ describe("Lottery", function () {
     let winnerIndex = (await lottery.winnerIndex()).toNumber();
  
     winnerIndex+=1;
-    const winnerBalance = balances[winnerIndex-1]
+    const winnerBalance = balances[winnerIndex-1];
     console.log("locally stored balance: ", winnerBalance);
     let temp: any = await ethers.provider.getBalance(signers[winnerIndex].address);
-    let flag: any = (temp-winnerBalance)
-;    console.log("on chain balance", await ethers.provider.getBalance(signers[winnerIndex].address));
+    let flag: any = (temp-winnerBalance);
+    console.log("on chain balance", await ethers.provider.getBalance(signers[winnerIndex].address));
     console.log("difference", flag);
     
-    // expect (await ethers.provider.getBalance(signers[winnerIndex].address)).to.equal(winnerBalance);
+    // expect (flag).to.equal(expandTo18Decimals(contractBalance));
 
   });
 
